@@ -15,7 +15,7 @@ Access to the Tonic.ai API with a valid API key/token
 An active Tonic.ai workspace
 
 # Usage
-Clone this repository or download the script (tonic_ai_cloud_file_group.py).
+Clone this repository or download the script (run.py)
 
 Replace the placeholders in the script with your actual API key/token, Tonic URl
 
