@@ -131,7 +131,7 @@ if __name__ == "__main__":
 
     workspaceId = "4465548f-c69a-9a3a-2245-ed9c5693bc9a"
     bucketName = "tcb-daas-landing-qa"
-    folderPath = "SignatureCore/CUP00301/"
+    folderPath = "bai/archive/"
     numberFiles = 5
     filetype = ""
     #instead of hardcoding workspace ID, call get_workspaces method to get list of all workspaces to loop through
