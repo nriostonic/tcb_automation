@@ -91,7 +91,7 @@ class TonicSession:
 
         print(data)
 
-        r  = self._session.put(update_filegroup_url, headers=headers, data=data)
+        r  = self._session.put(update_filegroup_url, headers=headers, data=json.dumps(data))
 
         if r.ok:
             print("filegroup updated")
