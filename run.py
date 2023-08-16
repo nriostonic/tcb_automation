@@ -67,6 +67,8 @@ class TonicSession:
     def update_filegroup(self, id, name, workspace_id, bucketName, files_list, quoteChar, nullChar, escapeChar, delimitChar, header):
         update_filegroup_url = self._get_url("/api/FileGroup")
         headers = { 'accept': 'text/plain' , 'Content-Type': 'application/json'}
+        print("files list")
+        print(files_list)
         files_data = []
         for file in files_list:
             file_entry = {"bucketKeyPair": {
