@@ -137,6 +137,8 @@ if __name__ == "__main__":
     #instead of hardcoding workspace ID, call get_workspaces method to get list of all workspaces to loop through
     #above variables can be pulled from parameter file / workspaces
 
+    print("before get filegruup")
+    
     filegroupList = session.get_filegroups(workspaceId)
     for filegroup in filegroupList:
         fileType = filegroup.get('fileType')
