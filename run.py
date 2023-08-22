@@ -134,7 +134,7 @@ if __name__ == "__main__":
     AWS_RESOURCE = client.get_secret_value(
         SecretId='tonic_qa_api_token',
     )
-    TONIC_API_KEY = json.loads(AWS_RESOURCE)['SecretString']['apikey']
+    TONIC_API_KEY = json.loads(AWS_RESOURCE['SecretString'])['apikey']
 
     session = TonicSession(TONIC_URL, TONIC_API_KEY)
 
