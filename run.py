@@ -137,8 +137,11 @@ if __name__ == "__main__":
 
     session = TonicSession(TONIC_URL, TONIC_API_KEY)
 
-    f = open('example_parameter.json')
-    deID_Queue = json.loads(f)['queue']
+    with open('parameter.json') as json_queue:
+      file_contents = json_queue.read()
+    parsed_json = json.loads(file_contents)
+    
+    deID_Queue = parsed_json['queue']
     for workspace in deID_Queue:
         workspaceId = workspace['WORKSPACE_ID']
         bucketName = workspace['BUCKET']
