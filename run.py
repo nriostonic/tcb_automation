@@ -2,9 +2,10 @@ import json
 import os
 import boto3
 import requests
+
 # pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org requests#
 # Parameters
-TONIC_API_KEY = "<<REDACTED>>"
+#TONIC_API_KEY = "<<REDACTED>>"
 TONIC_URL = "https://tonic-qa.texascapitalbank.com"
 
 
@@ -127,30 +128,39 @@ def get_recent_files_from_s3(bucket_name, folder_path, file_type, num_files=5):
 
 if __name__ == "__main__":
 
+
+    client = boto3.client('secretsmanager')
+
+    TONIC_API_KEY = client.get_secret_value(
+        SecretId='tonic_qa_api_token',
+    )
+
     session = TonicSession(TONIC_URL, TONIC_API_KEY)
 
-    workspaceId = "4465548f-c69a-9a3a-2245-ed9c5693bc9a"
-    bucketName = "tcb-daas-landing-qa"
-    folderPath = "bai/archive/"
-    numberFiles = 5
-    filetype = ""
-    #instead of hardcoding workspace ID, call get_workspaces method to get list of all workspaces to loop through
-    #above variables can be pulled from parameter file / workspaces
+    f = open('example_parameter.json')
+    deID_Queue = json.loads(f)['queue']
+    for workspace in deID_Queue:
+        workspaceId = workspace['WORKSPACE_ID']
+        bucketName = workspace['BUCKET']
+        folderPath = workspace['FOLDER_PATH']
+        numberFiles = workspace['NUMBER_OF_FILES']
+        filetype = ""
 
-    print("before get filegruup")
-    
-    filegroupList = session.get_filegroups(workspaceId)
-    for filegroup in filegroupList:
-        fileType = filegroup.get('fileType')
-        escapeChar = filegroup.get('escapeChar')
-        nullChar = filegroup.get('nullChar')
-        delimChar = filegroup.get('delimiter')
-        quoteChar = filegroup.get('quoteChar')
-        id = filegroup.get('id')
-        name = filegroup.get('name')
-        header = filegroup.get('hasHeader')
-        endsWith = '.' + fileType.lower()
-        updatedFiles = get_recent_files_from_s3(bucketName, folderPath, endsWith, numberFiles)
-        session.update_filegroup(id, name, workspaceId, bucketName, updatedFiles, quoteChar, nullChar, escapeChar, delimChar, header)
-    print('finished updating filegroups')
-    session.generate_data(workspaceId)
+
+        print("before get filegruup")
+
+        filegroupList = session.get_filegroups(workspaceId)
+        for filegroup in filegroupList:
+            fileType = filegroup.get('fileType')
+            escapeChar = filegroup.get('escapeChar')
+            nullChar = filegroup.get('nullChar')
+            delimChar = filegroup.get('delimiter')
+            quoteChar = filegroup.get('quoteChar')
+            id = filegroup.get('id')
+            name = filegroup.get('name')
+            header = filegroup.get('hasHeader')
+            endsWith = '.' + fileType.lower()
+            updatedFiles = get_recent_files_from_s3(bucketName, folderPath, endsWith, numberFiles)
+            session.update_filegroup(id, name, workspaceId, bucketName, updatedFiles, quoteChar, nullChar, escapeChar, delimChar, header)
+        print('finished updating filegroups')
+        session.generate_data(workspaceId)
