@@ -131,9 +131,10 @@ if __name__ == "__main__":
 
     client = boto3.client('secretsmanager')
 
-    TONIC_API_KEY = client.get_secret_value(
+    AWS_RESOURCE = client.get_secret_value(
         SecretId='tonic_qa_api_token',
     )
+    TONIC_API_KEY = json.loads(AWS_RESOURCE)['SecretString']['apikey']
 
     session = TonicSession(TONIC_URL, TONIC_API_KEY)
 
