@@ -1,0 +1,16 @@
+{
+   "queue":[
+      {
+         "WORKSPACE_ID":"4465548f-c69a-9a3a-2245-ed9c5693bc9a",
+         "BUCKET":"tcb-daas-landing-qa",
+         "FOLDER_PATH":"bai/archive/",
+         "NUMBER_OF_FILES": 5
+      },
+      {
+         "WORKSPACE_ID":"",
+         "BUCKET":"",
+         "FOLDER_PATH":"",
+         "NUMBER_OF_FILES":<Int>
+      }
+   ]
+}
