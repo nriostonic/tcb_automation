@@ -1,5 +1,5 @@
 # Tonic.ai Cloud File Group Automation Script
-This Python script automates the process of creating and updating cloud file groups on Tonic.ai using their API. It uses the boto3 library to retrieve file paths from an AWS S3 bucket and interacts with the Tonic.ai API to manage cloud file groups within a specified workspace.
+This Python script automates the process of updating cloud file groups and generating data on Tonic via API. It uses the boto3 library to retrieve the X most recent files in a designated AWS S3 bucket and then updates a respective filegroup within a workspace. The code reads from the parameter.json file in order to determine which filegroups to update and generate data for as well as how many files it needs to pull from S3.
 
 # Prerequisites
 Python 3.x
@@ -10,14 +10,16 @@ requests library for making API requests (install using pip install requests)
 
 json library for formatting data as JSON (install using pip install json)
 
-Access to the Tonic.ai API with a valid API key/token
+Access to the Tonic.ai API with a valid API key/token stored in AWS Secrets Manager
 
 An active Tonic.ai workspace
 
 # Usage
 Clone this repository or download the script (run.py)
 
-Replace the placeholders in the script with your actual API key/token, Tonic URl
+Replace the placeholder in the script with your actual Tonic URl
+
+Update the Parameter file
 
 Run the script using Python:
 ```python run.py```
