@@ -151,8 +151,6 @@ if __name__ == "__main__":
         filetype = ""
 
 
-        print("before get filegruup")
-
         filegroupList = session.get_filegroups(workspaceId)
         for filegroup in filegroupList:
             fileType = filegroup.get('fileType')
