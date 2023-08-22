@@ -5,7 +5,7 @@ import requests
 
 # pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org requests#
 # Parameters
-#TONIC_API_KEY = "<<REDACTED>>"
+
 TONIC_URL = "https://tonic-qa.texascapitalbank.com"
 
 
