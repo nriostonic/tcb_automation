@@ -100,6 +100,24 @@ class TonicSession:
             r.raise_for_status()
 
 
+def delete_s3_folder_contents(bucket_name, folder_path):
+    s3_client = boto3.client('s3')
+
+    # List objects in the folder
+    objects_to_delete = []
+    response = s3_client.list_objects_v2(Bucket=bucket_name, Prefix=folder_path)
+    
+    if 'Contents' in response:
+        for obj in response['Contents']:
+            objects_to_delete.append({'Key': obj['Key']})
+
+    # Delete objects in batches of 1000 (S3 API limit)
+    batch_size = 1000
+    for i in range(0, len(objects_to_delete), batch_size):
+        batch = objects_to_delete[i:i + batch_size]
+        s3_client.delete_objects(Bucket=bucket_name, Delete={'Objects': batch})
+
+    print(f"All contents in '{folder_path}' have been deleted.")
 
 def get_recent_files_from_s3(bucket_name, folder_path, file_type, num_files=5):
     s3 = boto3.resource('s3')
@@ -148,6 +166,7 @@ if __name__ == "__main__":
         bucketName = workspace['BUCKET']
         folderPath = workspace['FOLDER_PATH']
         numberFiles = workspace['NUMBER_OF_FILES']
+        isDelete = workspace['DELETE_OLD']
         filetype = ""
 
 
@@ -162,6 +181,8 @@ if __name__ == "__main__":
             name = filegroup.get('name')
             header = filegroup.get('hasHeader')
             endsWith = '.' + fileType.lower()
+            if isDelete == 'true':
+                delete_s3_folder_contents(bucketName, folderPath)
             updatedFiles = get_recent_files_from_s3(bucketName, folderPath, endsWith, numberFiles)
             session.update_filegroup(id, name, workspaceId, bucketName, updatedFiles, quoteChar, nullChar, escapeChar, delimChar, header)
         print('finished updating filegroups')
